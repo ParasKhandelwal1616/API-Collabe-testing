@@ -2,7 +2,81 @@
   "hash": "df2bd0ed",
   "configHash": "fbc4dd69",
   "lockfileHash": "6b0d3af5",
-  "browserHash": "452d5769",
-  "optimized": {},
-  "chunks": {}
+  "browserHash": "0751475a",
+  "optimized": {
+    "@monaco-editor/react": {
+      "src": "../../node_modules/@monaco-editor/react/dist/index.mjs",
+      "file": "@monaco-editor_react.js",
+      "fileHash": "36c8b0e5",
+      "needsInterop": false
+    },
+    "@reduxjs/toolkit": {
+      "src": "../../node_modules/@reduxjs/toolkit/dist/redux-toolkit.modern.mjs",
+      "file": "@reduxjs_toolkit.js",
+      "fileHash": "90c9af09",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "2401321b",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "c281b0f4",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "f49c5f7e",
+      "needsInterop": true
+    },
+    "react-redux": {
+      "src": "../../node_modules/react-redux/dist/react-redux.mjs",
+      "file": "react-redux.js",
+      "fileHash": "90f13590",
+      "needsInterop": false
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "ebfa2410",
+      "needsInterop": false
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "6b2784a0",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "e5783788",
+      "needsInterop": true
+    },
+    "socket.io-client": {
+      "src": "../../node_modules/socket.io-client/build/esm/index.js",
+      "file": "socket__io-client.js",
+      "fileHash": "07ddb7b6",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-DUEDWNxO": {
+      "file": "chunk-DUEDWNxO.js",
+      "isDynamicEntry": false
+    },
+    "react-dom-BpfFNzFJ": {
+      "file": "react-dom-BpfFNzFJ.js",
+      "isDynamicEntry": false
+    },
+    "react-x9Y-BYRK": {
+      "file": "react-x9Y-BYRK.js",
+      "isDynamicEntry": false
+    }
+  }
 }

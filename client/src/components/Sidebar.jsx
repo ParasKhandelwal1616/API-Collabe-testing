@@ -1,18 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { FileCode, Folder, Plus } from 'lucide-react';
+import { FileCode, Folder, Plus, Copy, Check } from 'lucide-react';
 import axios from 'axios';
 
 export default function Sidebar() {
   const navigate = useNavigate();
   const { workspaceId, requestId } = useParams();
   const [requests, setRequests] = useState([]);
+  const [copied, setCopied] = useState(false);
+  const [workspaceName, setWorkspaceName] = useState('Loading...');
 
   useEffect(() => {
     if (workspaceId) {
+      fetchWorkspaceDetails();
       fetchRequests();
     }
   }, [workspaceId]);
+
+  const fetchWorkspaceDetails = async () => {
+    try {
+        // Assuming a route exists to get single workspace details
+        // For now, we'll just display the ID or fetch full details if needed
+        // If we want the actual name, we'd need GET /api/workspaces/:id
+        setWorkspaceName(workspaceId); // Placeholder
+    } catch (error) {
+        console.error('Failed to fetch workspace details', error);
+        setWorkspaceName('Error loading');
+    }
+  }
+
+  const handleCopyWorkspaceId = () => {
+    navigator.clipboard.writeText(workspaceId);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const fetchRequests = async () => {
     try {
@@ -51,11 +72,19 @@ export default function Sidebar() {
       <div className="p-4 font-bold text-gray-200 border-b border-white/5 flex items-center justify-between">
         <div className="flex items-center gap-2">
            <Folder size={18} className="text-violet-400" /> 
-           <span className="truncate max-w-[120px]">Workspace</span>
+           <span className="truncate max-w-[90px]">{workspaceName}</span>
+           <button 
+                onClick={handleCopyWorkspaceId}
+                className="text-gray-500 hover:text-white transition-colors"
+                title="Copy Workspace ID"
+            >
+                {copied ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
+            </button>
         </div>
         <button 
             onClick={handleCreateRequest}
             className="text-gray-400 hover:text-white transition-colors"
+            title="Create New Request"
         >
             <Plus size={16} />
         </button>
