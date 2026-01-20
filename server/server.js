@@ -7,6 +7,7 @@ const cors = require('cors');
 require('dotenv').config();
 const dbconnect = require('./config/dbconnect');
 const Request = require('./models/request');
+const auth = require('./middleware/auth'); // NEW
 
 const app = express();
 const server = http.createServer(app);

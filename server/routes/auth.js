@@ -3,7 +3,21 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // User model
+const auth = require('../middleware/auth');
 require('dotenv').config();
+
+// @route   GET api/auth
+// @desc    Get user by token
+// @access  Private
+router.get('/', auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password');
+        res.json(user);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // @route   POST api/auth/register
 // @desc    Register user
@@ -21,12 +35,12 @@ router.post('/register', async (req, res) => {
         user = new User({
             username,
             email,
-            password
+            passwordHash: '' // Will be set after hashing
         });
 
         // Hash password
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt);
+        user.passwordHash = await bcrypt.hash(password, salt);
 
         await user.save();
 
@@ -67,7 +81,7 @@ router.post('/login', async (req, res) => {
         }
 
         // Check password
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(password, user.passwordHash);
         if (!isMatch) {
             return res.status(400).json({ msg: 'Invalid Credentials' });
         }

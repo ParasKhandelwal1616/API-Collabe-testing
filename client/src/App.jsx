@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { loadUser } from './features/auth/authSlice';
 import setAuthToken from './utils/setAuthToken';
+import axios from 'axios';
 
 import WorkspaceLayout from './components/WorkspaceLayout';
 import Dashboard from './components/Dashboard';
