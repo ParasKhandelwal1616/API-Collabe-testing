@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Plus, ArrowRight, Hash, Copy } from 'lucide-react';
+import { Plus, ArrowRight, Hash, Copy, LogOut } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../features/auth/authSlice';
 
 export default function Dashboard() {
   const [showModal, setShowModal] = useState(false);
@@ -9,6 +8,8 @@ export default function Dashboard() {
   const [joinWorkspaceId, setJoinWorkspaceId] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
 
   const createWorkspace = async () => {
     if (!newWorkspaceName) return;
@@ -50,6 +51,10 @@ export default function Dashboard() {
     }
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
@@ -58,6 +63,7 @@ export default function Dashboard() {
             API Forge
           </h1>
           <p className="text-gray-400">Collaborative API Development</p>
+          {user && <p className="text-sm text-gray-500">Welcome, {user.username}</p>}
         </div>
 
         {/* Error Message */}
@@ -112,6 +118,15 @@ export default function Dashboard() {
             <Plus size={20} /> Create New Workspace
           </button>
         </div>
+        
+        {user && (
+            <button 
+                onClick={handleLogout}
+                className="mt-6 flex items-center gap-2 text-gray-500 hover:text-red-400 mx-auto"
+            >
+                <LogOut size={18} /> Logout
+            </button>
+        )}
       </div>
 
       {/* Create Modal */}
