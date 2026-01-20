@@ -96,7 +96,7 @@ app.get('/', (req, res) => {
     res.send('API Collab Server is running');
 });
 // Proxy Route
-app.use('/api/proxy', proxyRouter);
+app.use('/api/proxy', auth, proxyRouter);
 app.use('/api/workspaces', workspacesRouter);
 app.use('/api/requests', requestsRouter);
 app.use('/api/auth', authRouter);
