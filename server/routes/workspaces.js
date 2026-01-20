@@ -1,64 +1,39 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../middleware/auth'); // Auth middleware
 const Workspace = require('../models/Workspace');
-const Request = require('../models/request'); // Ensure correct case for filename
 
-// GET /api/workspaces - List all workspaces
-router.get('/', async (req, res) => {
+// @route   GET /api/workspaces/:id
+// @desc    Get a single workspace by ID
+// @access  Private
+router.get('/:id', auth, async (req, res) => {
     try {
-        const workspaces = await Workspace.find();
-        res.json(workspaces);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
+        const workspace = await Workspace.findById(req.params.id);
+        if (!workspace) {
+            return res.status(404).json({ msg: 'Workspace not found' });
+        }
+        // TODO: Check if user is a member/owner of the workspace
+        res.json(workspace);
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind === 'ObjectId') {
+            return res.status(404).json({ msg: 'Workspace not found' });
+        }
+        res.status(500).send('Server Error');
     }
 });
 
-// POST /api/workspaces - Create a new workspace
-router.post('/', async (req, res) => {
-    const { name } = req.body;
-    try {
-        const workspace = new Workspace({ name });
-        await workspace.save();
-        
-        // Create a default request for this workspace
-        const defaultRequest = new Request({
-            title: 'My First Request',
-            method: 'GET',
-            url: 'https://jsonplaceholder.typicode.com/todos/1',
-            workspace: workspace._id
-        });
-        await defaultRequest.save();
-
-        res.status(201).json({ workspace, defaultRequestId: defaultRequest._id });
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
-
-// GET /api/workspaces/:id/requests - List requests for a workspace
-router.get('/:id/requests', async (req, res) => {
-    try {
-        const requests = await Request.find({ workspace: req.params.id });
-        res.json(requests);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// POST /api/workspaces/:id/requests - Create a new request in a workspace
-router.post('/:id/requests', async (req, res) => {
-    try {
-        const newRequest = new Request({
-            workspace: req.params.id,
-            title: 'Untitled Request',
-            method: 'GET',
-            url: ''
-        });
-        await newRequest.save();
-        res.status(201).json(newRequest);
-    } catch (error) {
-        res.status(400).json({ error: error.message });
-    }
-});
+// @route   GET /api/workspaces - List all workspaces (for owner/member)
+// @desc    Get all workspaces for the authenticated user
+// @access  Private
+// router.get('/', auth, async (req, res) => {
+//     try {
+//         const workspaces = await Workspace.find({ owner: req.user.id }); // Only fetch workspaces owned by user
+//         res.json(workspaces);
+//     } catch (err) {
+//         console.error(err.message);
+//         res.status(500).send('Server Error');
+//     }
+// });
 
 module.exports = router;

@@ -13,6 +13,7 @@ const server = http.createServer(app);
 const proxyRouter = require('./routers/proxy');
 const workspacesRouter = require('./routes/workspaces');
 const requestsRouter = require('./routes/requests');
+const authRouter = require('./routes/auth'); // NEW
 
 // Middleware
 app.use(cors());
@@ -98,6 +99,7 @@ app.get('/', (req, res) => {
 app.use('/api/proxy', proxyRouter);
 app.use('/api/workspaces', workspacesRouter);
 app.use('/api/requests', requestsRouter);
+app.use('/api/auth', authRouter);
 
 // Start Server
 const PORT = process.env.PORT || 5000;
