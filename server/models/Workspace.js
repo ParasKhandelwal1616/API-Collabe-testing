@@ -7,8 +7,8 @@ const workspaceSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
+        // required: true // TODO: Enable when Auth is ready
     },
     // Who is allowed to see this?
     members: [{
