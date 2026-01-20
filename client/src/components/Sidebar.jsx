@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FileCode, Folder, Plus, Copy, Check } from 'lucide-react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -9,20 +10,19 @@ export default function Sidebar() {
   const [requests, setRequests] = useState([]);
   const [copied, setCopied] = useState(false);
   const [workspaceName, setWorkspaceName] = useState('Loading...');
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    if (workspaceId) {
+    if (workspaceId && isAuthenticated) {
       fetchWorkspaceDetails();
       fetchRequests();
     }
-  }, [workspaceId]);
+  }, [workspaceId, isAuthenticated]);
 
   const fetchWorkspaceDetails = async () => {
     try {
-        // Assuming a route exists to get single workspace details
-        // For now, we'll just display the ID or fetch full details if needed
-        // If we want the actual name, we'd need GET /api/workspaces/:id
-        setWorkspaceName(workspaceId); // Placeholder
+        const res = await axios.get(`http://localhost:5000/api/workspaces/${workspaceId}`);
+        setWorkspaceName(res.data.name);
     } catch (error) {
         console.error('Failed to fetch workspace details', error);
         setWorkspaceName('Error loading');
