@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 
-const API_URL = 'http://localhost:5000/api/auth';
+const API_URL = 'https://api-collabe-testing.onrender.com/api/auth';
 
 // Register User
 export const registerUser = createAsyncThunk(

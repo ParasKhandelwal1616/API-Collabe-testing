@@ -5,7 +5,7 @@ import axios from 'axios';
 export const fetchRequestById = createAsyncThunk(
   'request/fetchById',
   async (requestId) => {
-    const response = await axios.get(`http://localhost:5000/api/requests/${requestId}`);
+    const response = await axios.get(`https://api-collabe-testing.onrender.com/api/requests/${requestId}`);
     return response.data;
   }
 );

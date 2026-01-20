@@ -17,7 +17,7 @@ export default function Dashboard() {
   const createWorkspace = async () => {
     if (!newWorkspaceName) return;
     try {
-      const res = await axios.post('http://localhost:5000/api/workspaces', { name: newWorkspaceName });
+      const res = await axios.post('https://api-collabe-testing.onrender.com/api/workspaces', { name: newWorkspaceName });
       setShowModal(false);
       setNewWorkspaceName('');
       navigate(`/workspace/${res.data.workspace._id}/request/${res.data.defaultRequestId}`);
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
       // Check if workspace exists (optional, or just navigate and let the layout handle 404)
       // For speed, we'll try to fetch requests. If it fails, ID is likely wrong.
-      const res = await axios.get(`http://localhost:5000/api/workspaces/${joinWorkspaceId}/requests`);
+      const res = await axios.get(`https://api-collabe-testing.onrender.com/api/workspaces/${joinWorkspaceId}/requests`);
       
       if (res.data && res.data.length > 0) {
         navigate(`/workspace/${joinWorkspaceId}/request/${res.data[0]._id}`);

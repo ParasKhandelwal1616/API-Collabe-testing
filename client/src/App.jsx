@@ -48,7 +48,7 @@ function PrivateRouteFallback() {
   useEffect(() => {
     const fetchFirstRequest = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/workspaces/${workspaceId}/requests`);
+        const res = await axios.get(`https://api-collabe-testing.onrender.com/api/workspaces/${workspaceId}/requests`);
         if (res.data && res.data.length > 0) {
           navigate(`/workspace/${workspaceId}/request/${res.data[0]._id}`, { replace: true });
         } else {

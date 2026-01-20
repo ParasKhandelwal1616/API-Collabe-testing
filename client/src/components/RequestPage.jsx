@@ -39,7 +39,7 @@ export default function RequestPage() {
         });
       }
 
-      const res = await axios.post('http://localhost:5000/api/proxy', {
+      const res = await axios.post('https://api-collabe-testing.onrender.com/api/proxy', {
         url: currentRequest.url,
         method: currentRequest.method,
         headers: currentRequest.headers || {},

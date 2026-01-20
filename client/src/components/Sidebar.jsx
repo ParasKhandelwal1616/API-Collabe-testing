@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   const fetchWorkspaceDetails = async () => {
     try {
-        const res = await axios.get(`http://localhost:5000/api/workspaces/${workspaceId}`);
+        const res = await axios.get(`https://api-collabe-testing.onrender.com/api/workspaces/${workspaceId}`);
         setWorkspaceName(res.data.name);
     } catch (error) {
         console.error('Failed to fetch workspace details', error);
@@ -38,7 +38,7 @@ export default function Sidebar() {
   const fetchRequests = async () => {
     try {
       // TODO: Create this endpoint in backend
-      const res = await axios.get(`http://localhost:5000/api/workspaces/${workspaceId}/requests`);
+      const res = await axios.get(`https://api-collabe-testing.onrender.com/api/workspaces/${workspaceId}/requests`);
       setRequests(res.data);
     } catch (error) {
       console.error('Failed to fetch requests', error);
@@ -47,7 +47,7 @@ export default function Sidebar() {
 
   const handleCreateRequest = async () => {
     try {
-        const res = await axios.post(`http://localhost:5000/api/workspaces/${workspaceId}/requests`);
+        const res = await axios.post(`https://api-collabe-testing.onrender.com/api/workspaces/${workspaceId}/requests`);
         setRequests([...requests, res.data]);
         navigate(`/workspace/${workspaceId}/request/${res.data._id}`);
     } catch (error) {

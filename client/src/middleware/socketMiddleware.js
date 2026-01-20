@@ -6,7 +6,7 @@ let socket;
 export const socketMiddleware = (store) => (next) => (action) => {
     // 1. Initialize Socket on First Load
     if (!socket) {
-        socket = io('http://localhost:5000');
+        socket = io('https://api-collabe-testing.onrender.com');
 
         // Listen for incoming changes from OTHER users
         socket.on('REQUEST_UPDATED', (payload) => {
