@@ -13,6 +13,7 @@ export const registerUser = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
+        timeout: 10000, // 10s timeout
       };
       const body = JSON.stringify({ username, email, password });
       const res = await axios.post(`${API_URL}/register`, body, config);
@@ -32,6 +33,7 @@ export const loginUser = createAsyncThunk(
         headers: {
           'Content-Type': 'application/json',
         },
+        timeout: 10000, // 10s timeout
       };
       const body = JSON.stringify({ email, password });
       const res = await axios.post(`${API_URL}/login`, body, config);

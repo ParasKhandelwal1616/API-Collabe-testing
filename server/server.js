@@ -90,8 +90,6 @@ io.on('connection', (socket) => {
     });
 });
 
-dbconnect.connectDB();
-
 // Basic Route
 app.get('/', (req, res) => {
     res.send('API Collab Server is running');
@@ -102,8 +100,10 @@ app.use('/api/workspaces', workspacesRouter);
 app.use('/api/requests', requestsRouter);
 app.use('/api/auth', authRouter);
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+dbconnect.connectDB().then(() => {
+    // Start Server
+    const PORT = process.env.PORT || 5000;
+    server.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
+    });
 });
