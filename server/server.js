@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const dbconnect = require('./config/dbconnect');
+const proxyrouter = require('./routers/proxy');
 
 const app = express();
 const server = http.createServer(app);
@@ -13,12 +14,13 @@ const server = http.createServer(app);
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/api/proxy', proxyrouter);
 
 // Socket.io Setup
 const io = new Server(server, {
     cors: {
         origin: "*", // We will change this to our React URL later for security
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST", "PUT", "DELETE"]
     }
 });
 
