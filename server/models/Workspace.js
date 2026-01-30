@@ -10,6 +10,10 @@ const workspaceSchema = new mongoose.Schema({
         ref: 'User',
         required: true 
     },
+    isPublic: {
+        type: Boolean,
+        default: true
+    },
     // Who is allowed to see this?
     members: [{
         type: mongoose.Schema.Types.ObjectId,

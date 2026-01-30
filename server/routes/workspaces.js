@@ -11,8 +11,12 @@ const checkWorkspaceAccess = async (req, res, next) => {
         if (!workspace) {
             return res.status(404).json({ msg: 'Workspace not found' });
         }
-        // Check if user is owner or a member
-        if (workspace.owner.toString() !== req.user.id && !workspace.members.some(member => member.toString() === req.user.id)) {
+        
+        // Default to public if isPublic is undefined, otherwise use the value
+        const isPublic = workspace.isPublic === undefined ? true : workspace.isPublic;
+
+        // Check if user is owner or a member OR if it's public
+        if (!isPublic && workspace.owner.toString() !== req.user.id && !workspace.members.some(member => member.toString() === req.user.id)) {
             return res.status(403).json({ msg: 'Access denied' });
         }
         req.workspace = workspace; // Attach workspace to request for further use
