@@ -10,6 +10,7 @@ export default function RequestPage() {
   const dispatch = useDispatch();
   const { currentRequest, response, isLoading, saveStatus } = useSelector((state) => state.request);
   const [copied, setCopied] = useState(false);
+  const [viewMode, setViewMode] = useState('json'); // json, raw
   const { workspaceId, requestId } = useParams();
 
   useEffect(() => {
@@ -61,7 +62,8 @@ export default function RequestPage() {
   };
 
   const handleCopyResponse = () => {
-    navigator.clipboard.writeText(JSON.stringify(response, null, 2));
+    const content = viewMode === 'json' ? JSON.stringify(response, null, 2) : JSON.stringify(response);
+    navigator.clipboard.writeText(content);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -178,7 +180,7 @@ export default function RequestPage() {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
           {/* Left Panel - Request */}
           <div className="flex-1 flex flex-col h-full overflow-hidden min-w-0 border-r border-white/5">
              <RequestPanel />
@@ -196,15 +198,33 @@ export default function RequestPage() {
                 )}
               </div>
               
-              {response && !response.error && (
-                <button
-                  onClick={handleCopyResponse}
-                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm text-gray-300 transition-all"
-                >
-                  {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                  {copied ? 'Copied!' : 'Copy'}
-                </button>
-              )}
+              <div className="flex items-center gap-2">
+                {response && !response.error && (
+                  <div className="flex bg-white/5 rounded-lg p-0.5 border border-white/10">
+                    <button
+                      onClick={() => setViewMode('json')}
+                      className={`px-3 py-1 rounded text-xs font-medium transition-all ${viewMode === 'json' ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white'}`}
+                    >
+                      JSON
+                    </button>
+                    <button
+                      onClick={() => setViewMode('raw')}
+                      className={`px-3 py-1 rounded text-xs font-medium transition-all ${viewMode === 'raw' ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white'}`}
+                    >
+                      Raw
+                    </button>
+                  </div>
+                )}
+                {response && !response.error && (
+                  <button
+                    onClick={handleCopyResponse}
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm text-gray-300 transition-all"
+                  >
+                    {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+                    {copied ? 'Copied!' : 'Copy'}
+                  </button>
+                )}
+              </div>
             </div>
 
             <div className="flex-1 p-4 overflow-auto">
@@ -221,7 +241,7 @@ export default function RequestPage() {
                   </div>
                 ) : (
                   <pre className="text-emerald-400 font-mono text-sm leading-relaxed whitespace-pre-wrap break-all">
-                    {JSON.stringify(response, null, 2)}
+                    {viewMode === 'json' ? JSON.stringify(response, null, 2) : JSON.stringify(response)}
                   </pre>
                 )
               ) : (

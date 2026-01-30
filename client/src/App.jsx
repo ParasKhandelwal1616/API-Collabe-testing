@@ -10,6 +10,7 @@ import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
 import PrivateRoute from './components/PrivateRoute';
+import Home from './components/Home';
 
 // Check for token in localStorage on first load
 if (localStorage.token) {
@@ -25,12 +26,13 @@ function App() {
 
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       
       {/* Private Routes */}
       <Route element={<PrivateRoute />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/workspace/:workspaceId/request/:requestId" element={<WorkspaceLayout />} />
         {/* Fallback for unknown request IDs in a workspace. Will fetch first available request. */}
         <Route path="/workspace/:workspaceId" element={<PrivateRouteFallback />} /> 
@@ -54,11 +56,11 @@ function PrivateRouteFallback() {
         } else {
           // If no requests, maybe create a new one or show an empty state
           // For now, redirect to dashboard.
-          navigate('/', { replace: true }); 
+          navigate('/dashboard', { replace: true }); 
         }
       } catch (error) {
         console.error('Failed to fetch requests for fallback', error);
-        navigate('/', { replace: true });
+        navigate('/dashboard', { replace: true });
       } finally {
         setLoading(false);
       }
@@ -68,7 +70,7 @@ function PrivateRouteFallback() {
       fetchFirstRequest();
     } else {
       setLoading(false);
-      navigate('/', { replace: true }); // No workspaceId, go to dashboard
+      navigate('/dashboard', { replace: true }); // No workspaceId, go to dashboard
     }
   }, [workspaceId, navigate]);
 

@@ -15,10 +15,11 @@ export default function Login() {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
+    dispatch(clearError()); // Clear any existing errors on mount
     if (isAuthenticated) {
-      navigate('/'); // Redirect to dashboard or home on successful login
+      navigate('/dashboard'); // Redirect to dashboard or home on successful login
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, dispatch]);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
